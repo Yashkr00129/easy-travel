@@ -28,7 +28,6 @@ export const items: SidebarItem[] = [
 			</SvgIcon>
 		),
 	},
-
 	{
 		title: "Account",
 		path: "/account",
