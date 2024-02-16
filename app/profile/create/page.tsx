@@ -45,35 +45,40 @@ export default function CreateProfile() {
   };
 
   return (
-    <SidebarLayout>
-      {/* I've signed in through clerk, but i dont have a profile in our own database. */}
-      {/* then make a profile in our own database */}
-      {/* dont let the user use the app without making a profile in our own database */}
-
-      <Stack spacing={2} justifyContent={'center'} alignItems={'center'}>
-        <Stack spacing={2} sx={{ width: '60%' }}>
-          <Typography variant='h4' color='primary'>
-            COMPLETE YOUR PROFILE
-          </Typography>
-          <TextField
-            label='Name'
-            name='name'
-            autoComplete='name'
-            onChange={handleChange}
-            sx={{ marginTop: '2rem' }}
-          />
-          <TextField
-            label='Date Of Birth'
-            name='dateOfBirth'
-            type='date'
-            autoComplete='dateOfBirth'
-            onChange={handleChange}
-          />
-          <Button onClick={() => onSubmit()} variant='contained'>
-            Submit
-          </Button>
-        </Stack>
-      </Stack>
-    </SidebarLayout>
-  );
+		<SidebarLayout>
+			<Stack
+				spacing={2}
+				justifyContent={"center"}
+				alignItems={"center"}>
+				<Stack
+					spacing={2}
+					sx={{ width: "60%" }}>
+					<Typography
+						variant="h4"
+						color="primary">
+						COMPLETE YOUR PROFILE
+					</Typography>
+					<TextField
+						label="Name"
+						name="name"
+						autoComplete="name"
+						onChange={handleChange}
+						sx={{ marginTop: "2rem" }}
+					/>
+					<TextField
+						label="Date Of Birth"
+						name="dateOfBirth"
+						type="date"
+						autoComplete="dateOfBirth"
+						onChange={handleChange}
+					/>
+					<Button
+						onClick={() => onSubmit()}
+						variant="contained">
+						Submit
+					</Button>
+				</Stack>
+			</Stack>
+		</SidebarLayout>
+	);
 }
