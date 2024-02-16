@@ -1,17 +1,30 @@
-import { NextResponse, NextRequest } from "next/server";
+import User from '@/server/models/User';
+import connectDb from '@/app/utils/connectDB';
+import { NextResponse, NextRequest } from 'next/server';
+import { currentUser } from '@clerk/nextjs';
 
-export const GET = async () => {
-	try {
-		// Do your work
-		return NextResponse.json({
-			user: "some user data",
-		});
-	} catch (error) {
-		console.log(error);
-		return NextResponse.json({
-			error: "Something failed in the server",
-		});
-	}
+connectDb();
+
+export const dynamic = 'force-dynamic';
+export const GET = async (req: NextRequest) => {
+  try {
+    const user = await currentUser();
+    const currentUserEmailId = user?.emailAddresses[0].emailAddress;
+
+    const dbUser = await User.findOne({ email: currentUserEmailId });
+    if (!dbUser)
+      return NextResponse.json({
+        msg: 'User not found',
+        status: 'fail',
+      });
+    return NextResponse.json({
+      user: dbUser,
+      status: 'success',
+    });
+  } catch (error) {
+    console.log(error);
+    return NextResponse.json({
+      error: 'Internal Server Error',
+    });
+  }
 };
-
-export const POST = async (req: NextRequest) => {};
