@@ -1,19 +1,21 @@
 import mongoose from 'mongoose';
 
-export interface IUser {
-  _id: string;
+export type IRole = 'Admin' | 'Customer' | 'Guide' | 'Manager';
+
+export type IUser = {
+  _id?: string;
   name: string;
   dateOfBirth: Date;
   email: string;
-  phone: string;
-  conpanyId: string;
-  role: 'Admin' | 'Manager' | 'Guide' | 'Customer';
-  profileImage: string;
-  address: string;
+  phone?: string;
+  conpanyId?: string;
+  role: IRole;
+  profileImage?: string;
+  address?: string;
   priorityLevel: number;
-  createdAt: Date;
-  updatedAt: Date;
-}
+  createdAt?: Date;
+  updatedAt?: Date;
+};
 
 const userSchema = new mongoose.Schema<IUser>(
   {
