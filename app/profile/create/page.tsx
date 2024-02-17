@@ -1,10 +1,10 @@
 'use client';
+import { useUser } from '@clerk/nextjs';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { SidebarLayout } from '@/app/components/dashboard/Layout';
 import { TextField, Button, Stack, Typography } from '@mui/material';
 import axios from 'axios';
-import { useUser } from '@clerk/nextjs';
 
 export default function CreateProfile() {
   const router = useRouter();
@@ -12,6 +12,8 @@ export default function CreateProfile() {
   const [formData, setFormData] = useState({
     name: '',
     dateOfBirth: '',
+    phone: '',
+    address: '',
   });
 
   useEffect(() => {
@@ -67,6 +69,18 @@ export default function CreateProfile() {
             name='dateOfBirth'
             type='date'
             autoComplete='dateOfBirth'
+            onChange={handleChange}
+          />
+          <TextField
+            label='Phone'
+            name='phone'
+            autoComplete='Phone'
+            onChange={handleChange}
+          />
+          <TextField
+            label='Address'
+            name='address'
+            autoComplete='address'
             onChange={handleChange}
           />
           <Button onClick={() => onSubmit()} variant='contained'>

@@ -1,5 +1,5 @@
 import User from '@/server/models/User';
-import connectDb from '@/app/utils/connectDB';
+import connectDb from '@/server/db/connectDB';
 import { NextResponse, NextRequest } from 'next/server';
 import { currentUser } from '@clerk/nextjs';
 

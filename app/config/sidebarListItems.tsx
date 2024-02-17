@@ -29,6 +29,15 @@ export const items: SidebarItem[] = [
 		),
 	},
 	{
+		title: 'Users',
+		path: '/users',
+		icon: (
+			<SvgIcon fontSize="small">
+				<UsersIcon />
+			</SvgIcon>
+		)
+	},
+	{
 		title: "Account",
 		path: "/account",
 		icon: (
