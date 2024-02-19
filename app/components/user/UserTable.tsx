@@ -30,20 +30,21 @@ const usePaginatedAccounts = (
 	}, [page, rowsPerPage, data]);
 };
 
-const useUserIds = (users: IUser[]): string[] => {
-	return useMemo((): string[] => {
-		return users.map((user) => user._id as string);
-	}, [users]);
-};
 
 export const UsersTable = () => {
 	const [users, setUsers] = useState<IUser[]>([]);
 	const [page, setPage] = useState(0);
 	const [rowsPerPage, setRowsPerPage] = useState(5);
 
-	const paginatedUsers = usePaginatedAccounts(users, page, rowsPerPage);
-	const usersIds = useUserIds(paginatedUsers);
-	const usersSelection = useSelection(usersIds);
+	const paginatedUsers = useMemo(() => {
+		return applyPagination(users, page, rowsPerPage) as IUser[];
+	}, [page, rowsPerPage, users]);
+
+	const userIds = useMemo(() => {
+		return users.map((user) => user._id) as string[];
+	}, [users]);
+
+	const usersSelection = useSelection(userIds);
 
 	useEffect(() => {
 		const loadUsers = async () => {

@@ -1,14 +1,21 @@
 import { alpha } from '@mui/material/styles';
 
-const withAlphas = (color) => {
-  return {
-    ...color,
-    alpha4: alpha(color.main, 0.04),
-    alpha8: alpha(color.main, 0.08),
-    alpha12: alpha(color.main, 0.12),
-    alpha30: alpha(color.main, 0.30),
-    alpha50: alpha(color.main, 0.50)
-  };
+const withAlphas = (color: {
+	lightest: string;
+	light: string;
+	main: string;
+	dark: string;
+	darkest: string;
+	contrastText: string;
+}) => {
+	return {
+		...color,
+		alpha4: alpha(color.main, 0.04),
+		alpha8: alpha(color.main, 0.08),
+		alpha12: alpha(color.main, 0.12),
+		alpha30: alpha(color.main, 0.3),
+		alpha50: alpha(color.main, 0.5),
+	};
 };
 
 export const neutral = {

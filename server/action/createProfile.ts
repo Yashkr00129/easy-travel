@@ -2,9 +2,7 @@
 import connectDb from "@/server/db/connectDB";
 import User, { IUser } from "@/server/models/User";
 
-const createProfile: (data: IUser) => Promise<IUser | null> = async (
-	data: IUser
-) => {
+const createProfile = async (data: IUser) => {
 	try {
 		await connectDb();
 
@@ -21,7 +19,7 @@ const createProfile: (data: IUser) => Promise<IUser | null> = async (
 			...data,
 		});
 
-		return user;
+		return user as IUser;
 	} catch (error) {
 		console.log(error);
 		return null;

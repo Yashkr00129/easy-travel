@@ -1,6 +1,6 @@
 "use client";
 import { useUser } from "@clerk/nextjs";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { SidebarLayout } from "@/app/components/dashboard/Layout";
 import {
@@ -12,7 +12,8 @@ import {
 	MenuItem,
 	FormControl,
 	InputLabel,
-	SelectChangeEvent,
+	Grid,
+	Divider,
 } from "@mui/material";
 import axios from "axios";
 import createProfile from "@/server/action/createProfile";
@@ -20,7 +21,6 @@ import { IRole } from "@/server/models/User";
 
 export default function CreateProfile() {
 	const router = useRouter();
-	const { user } = useUser();
 	const [formData, setFormData] = useState({
 		name: "",
 		dateOfBirth: "",
@@ -41,11 +41,9 @@ export default function CreateProfile() {
 
 	const onSubmit = async () => {
 		try {
-			const dateOfBirth = new Date(formData.dateOfBirth);
-
 			const payload = {
 				...formData,
-				dateOfBirth,
+				dateOfBirth: new Date(formData.dateOfBirth),
 				role: formData.role as IRole,
 			};
 
@@ -59,60 +57,117 @@ export default function CreateProfile() {
 
 	return (
 		<SidebarLayout>
-			<Stack
-				spacing={2}
-				justifyContent={"center"}
-				alignItems={"center"}>
-				<Stack
-					spacing={2}
-					sx={{ width: "60%" }}>
-					<Typography
-						variant="h4"
-						color="primary">
-						Create User
-					</Typography>
+			<Grid
+				container
+				spacing={2}>
+				<Grid
+					item
+					xs={12}>
+					<Stack
+						component="div"
+						direction="row"
+						sx={{ width: "100%" }}
+						justifyContent="space-between">
+						<Typography
+							variant="h4"
+							color="primary">
+							Create User
+						</Typography>
+						<Button variant="outlined" onClick={()=>router.push('/users')}>Go Back</Button>
+					</Stack>
+				</Grid>
+				<Grid
+					item
+					xs={12}
+					md={6}>
 					<TextField
 						label="Name"
 						name="name"
 						autoComplete="name"
 						onChange={handleChange}
-						sx={{ marginTop: "2rem" }}
+						fullWidth
 					/>
+				</Grid>
+				<Grid
+					item
+					xs={12}
+					md={6}>
 					<TextField
 						label="Date Of Birth"
 						name="dateOfBirth"
 						type="date"
 						autoComplete="dateOfBirth"
+						fullWidth
 						onChange={handleChange}
 					/>
+				</Grid>
+				<Grid
+					item
+					xs={12}
+					md={6}>
+					{" "}
 					<TextField
 						label="Email"
 						name="email"
 						autoComplete="email"
+						fullWidth
 						onChange={handleChange}
 					/>
+				</Grid>
+				<Grid
+					item
+					xs={12}
+					md={6}>
 					<TextField
 						label="Phone"
 						name="phone"
 						autoComplete="Phone"
+						fullWidth
 						onChange={handleChange}
 					/>
-					<TextField
-						label="CompanyId"
-						name="companyId"
-						autoComplete="CompanyId"
-						onChange={handleChange}
-					/>
+				</Grid>
+				<Grid
+					item
+					xs={12}
+					md={6}>
 					<TextField
 						label="Address"
 						name="address"
 						autoComplete="address"
+						fullWidth
 						onChange={handleChange}
 					/>
+				</Grid>
+				<Grid
+					item
+					xs={12}
+					md={6}>
+					<TextField
+						label="CompanyId"
+						name="companyId"
+						autoComplete="CompanyId"
+						fullWidth
+						onChange={handleChange}
+					/>
+				</Grid>
+				<Grid
+					item
+					xs={12}>
+					<Typography
+						variant="h6"
+						color="primary">
+						Assign Privillages
+					</Typography>
+				</Grid>
+				<Grid
+					item
+					xs={12}
+					md={6}>
+					{" "}
 					<FormControl fullWidth>
 						<InputLabel id="priorityLevel">Priority Level</InputLabel>
 						<Select
-							label="Priority Level"
+							labelId="priorityLevel"
 							name="priorityLevel"
 							onChange={handleChange}>
 							<MenuItem value={1}>One</MenuItem>
@@ -127,12 +182,17 @@ export default function CreateProfile() {
 							<MenuItem value={10}>Ten</MenuItem>
 						</Select>
 					</FormControl>
-
+				</Grid>
+				<Grid
+					item
+					xs={12}
+					md={6}>
 					<FormControl fullWidth>
-						<InputLabel id="priorityLevel">Role</InputLabel>
+						<InputLabel id="role">Role</InputLabel>
 						<Select
-							label="Role"
+							labelId="role"
 							name="role"
+							defaultValue="Customer"
 							onChange={handleChange}>
 							<MenuItem value={"Admin"}>Admin</MenuItem>
 							<MenuItem value={"Manager"}>Manager</MenuItem>
@@ -140,14 +200,14 @@ export default function CreateProfile() {
 							<MenuItem value={"Customer"}>Customer</MenuItem>
 						</Select>
 					</FormControl>
-
-					<Button
-						onClick={() => onSubmit()}
-						variant="contained">
-						Submit
-					</Button>
-				</Stack>
-			</Stack>
+				</Grid>
+			</Grid>
+			<Button
+				onClick={() => onSubmit()}
+				variant="contained"
+				sx={{ mt: 2 }}>
+				Submit
+			</Button>
 		</SidebarLayout>
 	);
 }

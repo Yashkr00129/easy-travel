@@ -60,7 +60,9 @@ export const SidebarLayout = (props: Props) => {
 				open={openNav}
 			/>
 			<LayoutRoot>
-				<LayoutContainer>{props.children}</LayoutContainer>
+				<LayoutContainer>
+					<div>{props.children}</div>
+				</LayoutContainer>
 			</LayoutRoot>
 		</>
 	);

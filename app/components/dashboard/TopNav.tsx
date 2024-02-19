@@ -99,7 +99,7 @@ export const TopNav = (props: Props) => {
 						</Tooltip>
 						<OrganizationSwitcher />
 
-						<UserButton />
+						<UserButton afterSignOutUrl="/sign-in" />
 					</Stack>
 				</Stack>
 			</Box>

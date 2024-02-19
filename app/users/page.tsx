@@ -11,12 +11,12 @@ import {
   Typography,
 } from '@mui/material';
 import { SidebarLayout } from '@/app/components/dashboard/Layout';
-import { UsersTable } from '@/app/components/user/UserTable';
-import { UsersSearch } from '../components/user/UserSearch';
+import { UsersTable } from "@/app/components/user/UserTable";
+import { SearchBox } from "../components/SearchBox";
 
 const UsersPage = () => {
-  const router = useRouter();
-  return (
+	const router = useRouter();
+	return (
 		<>
 			<SidebarLayout>
 				<Head>
@@ -34,7 +34,7 @@ const UsersPage = () => {
 								direction="row"
 								justifyContent="space-between"
 								spacing={4}>
-								<Typography variant="h4">Customers</Typography>
+								<Typography variant="h4">Users</Typography>
 								<div>
 									<Button
 										startIcon={
@@ -43,12 +43,12 @@ const UsersPage = () => {
 											</SvgIcon>
 										}
 										variant="contained"
-										onClick={() => router.push("/profile/create")}>
+										onClick={() => router.push("/users/create")}>
 										Add
 									</Button>
 								</div>
 							</Stack>
-							<UsersSearch />
+							<SearchBox placeholder="Search Users" />
 							<UsersTable />
 						</Stack>
 					</Container>
