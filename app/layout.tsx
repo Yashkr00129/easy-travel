@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
 import "simplebar-react/dist/simplebar.min.css";
+import "./globals.css";
 
 import { ThemeProvider } from "@mui/material";
 import theme from "./theme";
