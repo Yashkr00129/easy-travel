@@ -1,6 +1,7 @@
 "use server";
 import connectDb from "@/server/db/connectDB";
-import User, { IUser } from "@/server/models/User";
+import User from "@/server/models/User";
+import { IUser } from "@/types";
 
 const getAllUser = async () => {
 	try {

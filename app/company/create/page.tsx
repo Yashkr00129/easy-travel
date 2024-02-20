@@ -1,6 +1,5 @@
 "use client";
-import { useUser } from "@clerk/nextjs";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { SidebarLayout } from "@/app/components/dashboard/Layout";
 import {
@@ -35,9 +34,8 @@ export default function CreateCompanyPage() {
 
 	const onSubmit = async () => {
 		try {
-			console.log(formData);
 			await createCompanyProfile(formData);
-			return router.push('/company');
+			return router.push("/company");
 		} catch (error) {
 			console.log(error);
 		}
@@ -45,10 +43,17 @@ export default function CreateCompanyPage() {
 
 	return (
 		<SidebarLayout>
-			<Stack spacing={2} justifyContent={"center"} alignItems={"center"}>
-				<Stack spacing={2} sx={{ width: "60%" }}>
-					<Typography variant="h4" color="primary">
-						CREATE YOUR COMPANY PROFILE
+			<Stack
+				spacing={2}
+				justifyContent={"center"}
+				alignItems={"center"}>
+				<Stack
+					spacing={2}
+					sx={{ width: "60%" }}>
+					<Typography
+						variant="h4"
+						color="primary">
+						CREATE COMPANY
 					</Typography>
 					<TextField
 						label="Name"
@@ -64,9 +69,9 @@ export default function CreateCompanyPage() {
 						onChange={handleChange}
 					/>
 					<TextField
-						label='Address'
-						name='address'
-						autoComplete='address'
+						label="Address"
+						name="address"
+						autoComplete="address"
 						onChange={handleChange}
 					/>
 					<FormControl fullWidth>
@@ -74,8 +79,7 @@ export default function CreateCompanyPage() {
 						<Select
 							label="Priority Level"
 							name="priorityLevel"
-							onChange={handleChange}
-						>
+							onChange={handleChange}>
 							<MenuItem value={1}>One</MenuItem>
 							<MenuItem value={2}>Two</MenuItem>
 							<MenuItem value={3}>Three</MenuItem>
@@ -88,7 +92,11 @@ export default function CreateCompanyPage() {
 							<MenuItem value={10}>Ten</MenuItem>
 						</Select>
 					</FormControl>
-					<Button variant="contained" onClick={() => onSubmit()}>Submit</Button>
+					<Button
+						variant="contained"
+						onClick={() => onSubmit()}>
+						Submit
+					</Button>
 				</Stack>
 			</Stack>
 		</SidebarLayout>

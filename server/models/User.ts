@@ -1,21 +1,5 @@
-import mongoose from 'mongoose';
-
-export type IRole = 'Admin' | 'Customer' | 'Guide' | 'Manager';
-
-export type IUser = {
-	_id?: string;
-	name: string;
-	dateOfBirth: Date;
-	email: string;
-	phone?: string;
-	companyId?: string;
-	role: IRole;
-	profileImage?: string;
-	address?: string;
-	priorityLevel: number;
-	createdAt?: Date;
-	updatedAt?: Date;
-};
+import mongoose from "mongoose";
+import { IUser } from "@/types";
 
 const userSchema = new mongoose.Schema<IUser>(
 	{
@@ -61,6 +45,6 @@ const userSchema = new mongoose.Schema<IUser>(
 	}
 );
 
-const User = mongoose.models.User || mongoose.model<IUser>('User', userSchema);
+const User = mongoose.models.User || mongoose.model<IUser>("User", userSchema);
 
 export default User;

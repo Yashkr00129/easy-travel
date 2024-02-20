@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { create } from "zustand";
 import axios from "axios";
-import { IUser } from "@/server/models/User";
+import { IUser } from "@/types";
 import { useAuthStore } from "../auth";
 import { useAuth } from "@clerk/nextjs";
 

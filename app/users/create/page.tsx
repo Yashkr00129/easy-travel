@@ -1,5 +1,4 @@
 "use client";
-import { useUser } from "@clerk/nextjs";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { SidebarLayout } from "@/app/components/dashboard/Layout";
@@ -13,17 +12,15 @@ import {
 	FormControl,
 	InputLabel,
 	Grid,
-	Divider,
 } from "@mui/material";
-import axios from "axios";
 import createProfile from "@/server/action/createProfile";
-import { IRole } from "@/server/models/User";
+import { ICreateUser } from "@/types";
 
-export default function CreateProfile() {
+export default function CreateUser() {
 	const router = useRouter();
-	const [formData, setFormData] = useState({
+	const [formData, setFormData] = useState<ICreateUser>({
 		name: "",
-		dateOfBirth: "",
+		dateOfBirth: new Date(),
 		phone: "",
 		email: "",
 		address: "",
@@ -32,7 +29,15 @@ export default function CreateProfile() {
 		priorityLevel: 0,
 	});
 
+	const [loading, setLoading] = useState(false);
+
 	const handleChange = (e: any) => {
+		if (e.target.name === "dateOfBirth")
+			setFormData({
+				...formData,
+				dateOfBirth: new Date(e.target.value),
+			});
+
 		setFormData({
 			...formData,
 			[e?.target?.name]: e?.target?.value,
@@ -41,13 +46,7 @@ export default function CreateProfile() {
 
 	const onSubmit = async () => {
 		try {
-			const payload = {
-				...formData,
-				dateOfBirth: new Date(formData.dateOfBirth),
-				role: formData.role as IRole,
-			};
-
-			const user = await createProfile(payload);
+			const user = await createProfile(formData);
 
 			if (user) return router.push("/users");
 		} catch (error) {
@@ -73,7 +72,11 @@ export default function CreateProfile() {
 							color="primary">
 							Create User
 						</Typography>
-						<Button variant="outlined" onClick={()=>router.push('/users')}>Go Back</Button>
+						<Button
+							variant="outlined"
+							onClick={() => router.push("/users")}>
+							Go Back
+						</Button>
 					</Stack>
 				</Grid>
 				<Grid

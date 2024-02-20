@@ -11,7 +11,7 @@ import {
   TableRow,
   Typography,
 } from '@mui/material';
-import { ICompany } from '@/server/models/Company';
+import { ICompany } from "@/types";
 import { Scrollbar } from '@/app/components/Scrollbar';
 import { getInitials } from '@/app/utils/getInitials';
 import getAllCompanys from '@/server/action/getAllCompanys';

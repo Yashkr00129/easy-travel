@@ -1,8 +1,9 @@
 "use server";
 import connectDb from "@/server/db/connectDB";
-import User, { IUser } from "@/server/models/User";
+import User from "@/server/models/User";
+import { ICreateUser, IUser } from "@/types";
 
-const createProfile = async (data: IUser) => {
+const createProfile = async (data: ICreateUser) => {
 	try {
 		await connectDb();
 

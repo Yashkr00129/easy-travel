@@ -11,7 +11,7 @@ import {
   TableRow,
   Typography,
 } from '@mui/material';
-import { IUser } from '@/server/models/User';
+import { IUser } from "@/types";
 import { Scrollbar } from '@/app/components/Scrollbar';
 import { getInitials } from '@/app/utils/getInitials';
 import getAllUser from '@/server/action/getAllUser';

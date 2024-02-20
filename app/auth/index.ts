@@ -1,4 +1,4 @@
-import { IUser } from "@/server/models/User";
+import { IUser } from "@/types";
 import { create } from "zustand";
 
 type AuthStore = {
