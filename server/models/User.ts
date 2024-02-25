@@ -20,8 +20,9 @@ const userSchema = new mongoose.Schema<IUser>(
 		phone: {
 			type: String,
 		},
-		companyId: {
-			type: String,
+		company: {
+			type: mongoose.Schema.Types.ObjectId,
+			ref: "Company",
 		},
 		role: {
 			type: String,

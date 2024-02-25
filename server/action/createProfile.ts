@@ -10,10 +10,7 @@ const createProfile = async (data: ICreateUser) => {
 		const existingUser = await User.findOne({ email: data.email });
 
 		if (existingUser) {
-			return {
-				msg: "User already exists",
-				status: "fail",
-			};
+			return null;
 		}
 
 		const user = await User.create({

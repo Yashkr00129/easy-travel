@@ -5,7 +5,7 @@ export type ICreateUser = {
 	dateOfBirth: Date;
 	email: string;
 	phone?: string;
-	companyId?: string;
+	company?: string;
 	role: IUserRole;
 	profileImage?: string;
 	address?: string;
@@ -18,7 +18,7 @@ export type IUser = {
 	dateOfBirth: Date;
 	email: string;
 	phone?: string;
-	companyId?: string;
+	company?: string;
 	role: IUserRole;
 	profileImage?: string;
 	address?: string;

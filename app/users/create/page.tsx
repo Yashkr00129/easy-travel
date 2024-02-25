@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { SidebarLayout } from "@/app/components/dashboard/Layout";
 import {
@@ -14,22 +14,32 @@ import {
 	Grid,
 } from "@mui/material";
 import createProfile from "@/server/action/createProfile";
-import { ICreateUser } from "@/types";
+import { ICompany, ICreateUser } from "@/types";
+import getAllCompanys from "@/server/action/getAllCompanys";
 
 export default function CreateUser() {
 	const router = useRouter();
+	const [companies, setCompanies] = useState<ICompany[]>([]);
+
 	const [formData, setFormData] = useState<ICreateUser>({
 		name: "",
 		dateOfBirth: new Date(),
 		phone: "",
 		email: "",
 		address: "",
-		companyId: "",
+		company: "",
 		role: "Admin",
 		priorityLevel: 0,
 	});
 
-	const [loading, setLoading] = useState(false);
+	useEffect(() => {
+		const loadCompanies = async () => {
+			const companies = await getAllCompanys();
+			if (companies === null) return;
+			setCompanies(companies);
+		};
+		loadCompanies();
+	}, []);
 
 	const handleChange = (e: any) => {
 		if (e.target.name === "dateOfBirth")
@@ -145,13 +155,17 @@ export default function CreateUser() {
 					item
 					xs={12}
 					md={6}>
-					<TextField
-						label="CompanyId"
-						name="companyId"
-						autoComplete="CompanyId"
-						fullWidth
-						onChange={handleChange}
-					/>
+					<FormControl fullWidth>
+						<InputLabel id="company">Company</InputLabel>
+						<Select
+							labelId="company"
+							name="company"
+							onChange={handleChange}>
+							{companies.map((company) => (
+								<MenuItem value={company._id}>{company.name}</MenuItem>
+							))}
+						</Select>
+					</FormControl>
 				</Grid>
 				<Grid
 					item
