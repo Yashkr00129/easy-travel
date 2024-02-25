@@ -13,7 +13,7 @@ import {
 	InputLabel,
 	Grid,
 } from "@mui/material";
-import createProfile from "@/server/action/createProfile";
+import createUser from "@/server/action/createUser";
 import { ICompany, ICreateUser } from "@/types";
 import getAllCompanys from "@/server/action/getAllCompanys";
 
@@ -56,7 +56,7 @@ export default function CreateUser() {
 
 	const onSubmit = async () => {
 		try {
-			const user = await createProfile(formData);
+			const user = await createUser(formData);
 
 			if (user) return router.push("/users");
 		} catch (error) {

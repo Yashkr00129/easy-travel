@@ -3,7 +3,7 @@ import connectDb from "@/server/db/connectDB";
 import User from "@/server/models/User";
 import { ICreateUser, IUser } from "@/types";
 
-const createProfile = async (data: ICreateUser) => {
+const createUser = async (data: ICreateUser) => {
 	try {
 		await connectDb();
 
@@ -24,4 +24,4 @@ const createProfile = async (data: ICreateUser) => {
 	}
 };
 
-export default createProfile;
+export default createUser;

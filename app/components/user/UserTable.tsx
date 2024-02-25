@@ -11,6 +11,7 @@ import {
   TableRow,
   Typography,
 } from '@mui/material';
+import { useRouter } from "next/navigation";
 import { IUser } from "@/types";
 import { Scrollbar } from '@/app/components/Scrollbar';
 import { getInitials } from '@/app/utils/getInitials';
@@ -30,6 +31,7 @@ const usePaginatedAccounts = (
 };
 
 export const UsersTable = () => {
+  const router = useRouter();
   const [users, setUsers] = useState<IUser[]>([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -97,36 +99,42 @@ export const UsersTable = () => {
               {paginatedUsers.map((user) => {
                 const isSelected = selected.includes(user._id as string);
                 return (
-                  <TableRow hover key={user._id} selected={isSelected}>
-                    <TableCell padding='checkbox'>
-                      <Checkbox
-                        checked={isSelected}
-                        onChange={(event) => {
-                          if (event.target.checked) {
-                            usersSelection.handleSelectOne(user._id as string);
-                          } else {
-                            usersSelection.handleDeselectOne(
-                              user._id as string
-                            );
-                          }
-                        }}
-                      />
-                    </TableCell>
-                    <TableCell>
-                      <Stack alignItems='center' direction='row' spacing={2}>
-                        <Typography variant='subtitle2'>{user.name}</Typography>
-                      </Stack>
-                    </TableCell>
-                    <TableCell>{user.email}</TableCell>
-                    <TableCell>
-                      {new Date(user.dateOfBirth).toDateString()}
-                    </TableCell>
-                    <TableCell>{user.phone}</TableCell>
-                    <TableCell>{user.role}</TableCell>
-                    <TableCell>{user.companyId}</TableCell>
-                    <TableCell>{user.priorityLevel}</TableCell>
-                  </TableRow>
-                );
+									<TableRow
+										hover
+										key={user._id}
+										selected={isSelected}
+										onClick={() => router.push(`/users/${user._id}`)}>
+										<TableCell padding="checkbox">
+											<Checkbox
+												checked={isSelected}
+												onChange={(event) => {
+													if (event.target.checked) {
+														usersSelection.handleSelectOne(user._id as string);
+													} else {
+														usersSelection.handleDeselectOne(
+															user._id as string
+														);
+													}
+												}}
+											/>
+										</TableCell>
+										<TableCell>
+											<Stack
+												alignItems="center"
+												direction="row"
+												spacing={2}>
+												<Typography variant="subtitle2">{user.name}</Typography>
+											</Stack>
+										</TableCell>
+										<TableCell>{user.email}</TableCell>
+										<TableCell>
+											{new Date(user.dateOfBirth).toDateString()}
+										</TableCell>
+										<TableCell>{user.phone}</TableCell>
+										<TableCell>{user.role}</TableCell>
+										<TableCell>{user.priorityLevel}</TableCell>
+									</TableRow>
+								);
               })}
             </TableBody>
           </Table>
