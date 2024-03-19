@@ -12,46 +12,46 @@ import {
   Typography,
 } from "@mui/material";
 import { useRouter } from "next/navigation";
-import { IUser } from "@/types";
+import { ITrip, IUser } from "@/types";
 import { Scrollbar } from "@/app/components/Scrollbar";
 import { getInitials } from "@/app/utils/getInitials";
-import getAllUser from "@/server/action/getAllUser";
 import { useEffect, useState, useMemo, useCallback } from "react";
 import { applyPagination } from "@/app/utils/applyPagination";
 import { useSelection } from "@/app/hooks/useSelection";
+import getAllTrip from "@/server/action/getAllTrip";
 
 const usePaginatedAccounts = (
-  data: IUser[],
+  data: ITrip[],
   page: number,
   rowsPerPage: number
 ) => {
-  return useMemo((): IUser[] => {
+  return useMemo((): ITrip[] => {
     return applyPagination(data, page, rowsPerPage);
   }, [page, rowsPerPage, data]);
 };
 
-export const UsersTable = () => {
+export const TripsTable = () => {
   const router = useRouter();
-  const [users, setUsers] = useState<IUser[]>([]);
+  const [trips, setTrips] = useState<ITrip[]>([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
   const paginatedUsers = useMemo(() => {
-    return applyPagination<IUser>(users, page, rowsPerPage);
-  }, [page, rowsPerPage, users]);
+    return applyPagination<ITrip>(trips, page, rowsPerPage);
+  }, [page, rowsPerPage, trips]);
 
   const userIds = useMemo(() => {
-    return users.map((user) => user._id) as string[];
-  }, [users]);
+    return trips.map((trip) => trip._id) as string[];
+  }, [trips]);
 
   const usersSelection = useSelection(userIds);
 
   useEffect(() => {
-    const loadUsers = async () => {
-      const users = await getAllUser();
-      if (users) setUsers(users);
+    const loadTrips = async () => {
+      const trips = await getAllTrip();
+      if (trips) setTrips(trips);
     };
-    loadUsers();
+    loadTrips();
   }, []);
 
   const handlePageChange = useCallback((event: any, page: number) => {
@@ -63,8 +63,8 @@ export const UsersTable = () => {
   }, []);
 
   const selected = usersSelection.selected;
-  const selectedSome = selected.length > 0 && selected.length < users.length;
-  const selectedAll = users.length > 0 && selected.length === users.length;
+  const selectedSome = selected.length > 0 && selected.length < trips.length;
+  const selectedAll = trips.length > 0 && selected.length === trips.length;
 
   return (
     <Card>
@@ -87,34 +87,33 @@ export const UsersTable = () => {
                   />
                 </TableCell>
                 <TableCell>Name</TableCell>
-                <TableCell>Email</TableCell>
-                <TableCell>Date Of Birth</TableCell>
-                <TableCell>Phone</TableCell>
-                <TableCell>Role</TableCell>
-                <TableCell>Company Id</TableCell>
-                <TableCell>Priority Level</TableCell>
+                <TableCell>Description</TableCell>
+                <TableCell>Trip Length</TableCell>
+                <TableCell>Upcoming Dates</TableCell>
+                <TableCell>Status</TableCell>
+                <TableCell>Cost</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {paginatedUsers.map((user) => {
-                const isSelected = selected.includes(user._id as string);
+              {paginatedUsers.map((trip) => {
+                const isSelected = selected.includes(trip._id as string);
                 console.log(isSelected);
                 return (
                   <TableRow
                     hover
-                    key={user._id}
+                    key={trip._id}
                     selected={isSelected}
-                    onClick={() => router.push(`/users/${user._id}`)}
+                    onClick={() => router.push(`/users/${trip._id}`)}
                   >
                     <TableCell padding="checkbox">
                       <Checkbox
                         checked={isSelected}
                         onChange={(event) => {
                           if (event.target.checked) {
-                            usersSelection.handleSelectOne(user._id as string);
+                            usersSelection.handleSelectOne(trip._id as string);
                           } else {
                             usersSelection.handleDeselectOne(
-                              user._id as string
+                              trip._id as string
                             );
                           }
                         }}
@@ -122,16 +121,14 @@ export const UsersTable = () => {
                     </TableCell>
                     <TableCell>
                       <Stack alignItems="center" direction="row" spacing={2}>
-                        <Typography variant="subtitle2">{user.name}</Typography>
+                        <Typography variant="subtitle2">{trip.name}</Typography>
                       </Stack>
                     </TableCell>
-                    <TableCell>{user.email}</TableCell>
-                    <TableCell>
-                      {new Date(user.dateOfBirth).toDateString()}
-                    </TableCell>
-                    <TableCell>{user.phone}</TableCell>
-                    <TableCell>{user.role}</TableCell>
-                    <TableCell>{user.priorityLevel}</TableCell>
+                    <TableCell>{trip.description}</TableCell>
+                    <TableCell>{trip.tripLength}</TableCell>
+                    <TableCell>{trip.upcomingDates.toString()}</TableCell>
+                    <TableCell>{trip.status}</TableCell>
+                    <TableCell>{trip.cost}</TableCell>
                   </TableRow>
                 );
               })}
@@ -141,7 +138,7 @@ export const UsersTable = () => {
       </Scrollbar>
       <TablePagination
         component="div"
-        count={users.length}
+        count={trips.length}
         onPageChange={handlePageChange}
         onRowsPerPageChange={handleRowsPerPageChange}
         page={page}
