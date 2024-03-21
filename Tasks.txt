@@ -1,0 +1,5 @@
+Allow admins to be able to change permissions of users in order to be able to access different tabs in the database.
+
+We can see all the transactions in user and company.
+
+When user and company is created, we can create a transaction.
