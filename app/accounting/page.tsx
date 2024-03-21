@@ -101,7 +101,7 @@ export default function Accounting() {
   );
 }
 
-export function FormDialog() {
+function FormDialog() {
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
