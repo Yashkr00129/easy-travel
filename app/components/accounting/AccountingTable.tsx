@@ -30,29 +30,29 @@ const usePaginatedAccounts = (
   }, [page, rowsPerPage, data]);
 };
 
-export const TripsTable = () => {
-  const router = useRouter();
+export const AccountingTable = () => {
+  //   const router = useRouter();
   const [trips, setTrips] = useState<ITrip[]>([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
-  const paginatedTrips = useMemo(() => {
-    return applyPagination<ITrip>(trips, page, rowsPerPage);
-  }, [page, rowsPerPage, trips]);
+  //   const paginatedUsers = useMemo(() => {
+  //     return applyPagination<ITrip>(trips, page, rowsPerPage);
+  //   }, [page, rowsPerPage, trips]);
 
-  const tripIds = useMemo(() => {
+  const userIds = useMemo(() => {
     return trips.map((trip) => trip._id) as string[];
   }, [trips]);
 
-  const tripsSelection = useSelection(tripIds);
+  const usersSelection = useSelection(userIds);
 
-  useEffect(() => {
-    const loadTrips = async () => {
-      const trips = await getAllTrip();
-      if (trips) setTrips(trips);
-    };
-    loadTrips();
-  }, []);
+  //   useEffect(() => {
+  //     const loadTrips = async () => {
+  //       const trips = await getAllTrip();
+  //       if (trips) setTrips(trips);
+  //     };
+  //     loadTrips();
+  //   }, []);
 
   const handlePageChange = useCallback((event: any, page: number) => {
     setPage(page);
@@ -62,7 +62,7 @@ export const TripsTable = () => {
     setRowsPerPage(event.target?.value);
   }, []);
 
-  const selected = tripsSelection.selected;
+  const selected = usersSelection.selected;
   const selectedSome = selected.length > 0 && selected.length < trips.length;
   const selectedAll = trips.length > 0 && selected.length === trips.length;
 
@@ -79,23 +79,20 @@ export const TripsTable = () => {
                     indeterminate={selectedSome}
                     onChange={(event) => {
                       if (event.target.checked) {
-                        tripsSelection.handleSelectAll();
+                        usersSelection.handleSelectAll();
                       } else {
-                        tripsSelection.handleDeselectAll();
+                        usersSelection.handleDeselectAll();
                       }
                     }}
                   />
                 </TableCell>
-                <TableCell>Name</TableCell>
-                <TableCell>Description</TableCell>
-                <TableCell>Trip Duration</TableCell>
-                <TableCell>Upcoming Dates</TableCell>
-                <TableCell>Status</TableCell>
-                <TableCell>Cost</TableCell>
+                <TableCell>Category</TableCell>
+                <TableCell>Item</TableCell>
+                <TableCell>Amount</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {paginatedTrips.map((trip) => {
+              {/* {paginatedUsers.map((trip) => {
                 const isSelected = selected.includes(trip._id as string);
                 console.log(isSelected);
                 return (
@@ -110,9 +107,9 @@ export const TripsTable = () => {
                         checked={isSelected}
                         onChange={(event) => {
                           if (event.target.checked) {
-                            tripsSelection.handleSelectOne(trip._id as string);
+                            usersSelection.handleSelectOne(trip._id as string);
                           } else {
-                            tripsSelection.handleDeselectOne(
+                            usersSelection.handleDeselectOne(
                               trip._id as string
                             );
                           }
@@ -131,7 +128,7 @@ export const TripsTable = () => {
                     <TableCell>{trip.cost}</TableCell>
                   </TableRow>
                 );
-              })}
+              })} */}
             </TableBody>
           </Table>
         </Box>

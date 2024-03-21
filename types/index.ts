@@ -30,7 +30,7 @@ export type IUser = {
 export type ICreateTrip = {
   name: string;
   description: string;
-  tripLength: number;
+  tripDuration: number;
   upcomingDates: Date[];
   itenerary: any[];
   cost: number;
@@ -40,7 +40,7 @@ export type ITrip = {
   _id: string;
   name: string;
   description: string;
-  tripLength: number;
+  tripDuration: number;
   upcomingDates: Date[];
   status: "pending" | "complete";
   itenerary: any[];
@@ -55,6 +55,11 @@ export type ICompany = {
   priorityLevel: number;
   createdAt: Date;
   updatedAt: Date;
+};
+
+export type IItinerary = {
+  name: string;
+  description: string;
 };
 
 export type ICreateCompany = {

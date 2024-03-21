@@ -2,9 +2,17 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { SidebarLayout } from "@/app/components/dashboard/Layout";
-import { TextField, Button, Stack, Typography, Grid } from "@mui/material";
+import {
+  TextField,
+  Button,
+  Stack,
+  Typography,
+  Grid,
+  Box,
+  Paper,
+} from "@mui/material";
 import createUser from "@/server/action/createUser";
-import { ICreateTrip } from "@/types";
+import { ICreateTrip, IItinerary } from "@/types";
 import createTrip from "@/server/action/createTrip";
 
 export default function CreateTrip() {
@@ -13,11 +21,16 @@ export default function CreateTrip() {
   const [formData, setFormData] = useState<ICreateTrip>({
     name: "",
     description: "",
-    tripLength: 0,
+    tripDuration: 0,
     upcomingDates: [],
     itenerary: [],
     cost: 0,
   });
+  const [itineraries, setItineraries] = useState<IItinerary[]>([]);
+
+  const onItinerarySubmit = (itinerary: IItinerary) => {
+    setItineraries([...itineraries, itinerary]);
+  };
 
   const handleChange = (e: any) => {
     if (e.target.name === "upcomingDate")
@@ -40,6 +53,56 @@ export default function CreateTrip() {
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const Itinerary = () => {
+    const [itineraryData, setItineraryData] = useState<IItinerary>({
+      name: "",
+      description: "",
+    });
+
+    const handleChange = (e: any) => {
+      setItineraryData({
+        ...itineraryData,
+        [e?.target?.name]: e?.target?.value,
+      });
+    };
+
+    return (
+      <Grid container spacing={2}>
+        <Grid item xs={4}>
+          <Box>
+            <TextField
+              label="Name"
+              name="name"
+              autoComplete="name"
+              onChange={handleChange}
+              fullWidth
+            />
+          </Box>
+        </Grid>
+        <Grid item xs={4}>
+          <Box>
+            <TextField
+              label="Description"
+              name="description"
+              autoComplete="description"
+              fullWidth
+              onChange={handleChange}
+            />
+          </Box>
+        </Grid>
+        <Grid item xs={4}>
+          <Button
+            onClick={() => onItinerarySubmit(itineraryData)}
+            variant="contained"
+            sx={{ width: "100%" }}
+          >
+            Create
+          </Button>
+        </Grid>
+      </Grid>
+    );
   };
 
   return (
@@ -82,18 +145,9 @@ export default function CreateTrip() {
         <Grid item xs={12} md={6}>
           <TextField
             type="number"
-            label="TripLength"
-            name="tripLength"
-            autoComplete="tripLength"
-            fullWidth
-            onChange={handleChange}
-          />
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <TextField
-            label="Address"
-            name="address"
-            autoComplete="address"
+            label="TripDuration"
+            name="tripDuration"
+            autoComplete="tripDuration"
             fullWidth
             onChange={handleChange}
           />
@@ -118,10 +172,13 @@ export default function CreateTrip() {
             onChange={handleChange}
           />
         </Grid>
-        <Grid item xs={12}>
-          <Typography variant="h6" color="primary">
-            Create Itineraries
-          </Typography>
+      </Grid>
+      <Grid container spacing={2} sx={{ mt: 2 }}>
+        <Grid item xs={12} md={6}>
+          <Itinerary />
+          {itineraries.map((itinerary, i) => (
+            <DisplayItinerary key={i} itinerary={itinerary} />
+          ))}
         </Grid>
       </Grid>
       <Button onClick={() => onSubmit()} variant="contained" sx={{ mt: 2 }}>
@@ -130,3 +187,26 @@ export default function CreateTrip() {
     </SidebarLayout>
   );
 }
+
+const DisplayItinerary = ({ itinerary }: { itinerary: IItinerary }) => {
+  function onSubmit() {}
+  return (
+    <Paper elevation={4} sx={{ mt: 4, width: "100%" }}>
+      <Grid container>
+        <Grid item xs={12} md={4}>
+          <Typography variant="h4" color="primary">
+            {itinerary.name}
+          </Typography>
+        </Grid>
+        <Grid item xs={12} md={4}>
+          <Typography variant="h4" color="primary">
+            {itinerary.name}
+          </Typography>
+        </Grid>
+        <Grid item xs={12} md={4}>
+          <Button variant="contained">Delete</Button>
+        </Grid>
+      </Grid>
+    </Paper>
+  );
+};

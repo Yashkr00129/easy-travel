@@ -47,6 +47,15 @@ export const items: SidebarItem[] = [
     ),
   },
   {
+    title: "Accounting",
+    path: "/accounting",
+    icon: (
+      <SvgIcon fontSize="small">
+        <UsersIcon />
+      </SvgIcon>
+    ),
+  },
+  {
     title: "Comapany",
     path: "/company",
     icon: (

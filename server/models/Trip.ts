@@ -9,7 +9,7 @@ const tripSchema = new mongoose.Schema(
     tripDuration: { type: Number, required: true },
     upcomingDates: { type: [Date], default: [] },
     status: { type: String, enum: ["pending", "complete"], default: "pending" },
-    itenerary: { type: [ObjectId], ref: "Itinerary" },
+    itinerary: { type: [ObjectId], ref: "Itinerary" },
     cost: { type: Number },
   },
   {

@@ -1,6 +1,6 @@
 "use server";
 import connectDb from "@/server/db/connectDB";
-import { ICreateTrip, ITrip, IUser } from "@/types";
+import { ICreateTrip, ITrip } from "@/types";
 import Trip from "../models/Trip";
 
 const createTrip = async (data: ICreateTrip) => {
