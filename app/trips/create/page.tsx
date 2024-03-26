@@ -55,54 +55,11 @@ export default function CreateTrip() {
     }
   };
 
-  const Itinerary = () => {
-    const [itineraryData, setItineraryData] = useState<IItinerary>({
-      name: "",
-      description: "",
-    });
-
-    const handleChange = (e: any) => {
-      setItineraryData({
-        ...itineraryData,
-        [e?.target?.name]: e?.target?.value,
-      });
-    };
-
-    return (
-      <Grid container spacing={2}>
-        <Grid item xs={4}>
-          <Box>
-            <TextField
-              label="Name"
-              name="name"
-              autoComplete="name"
-              onChange={handleChange}
-              fullWidth
-            />
-          </Box>
-        </Grid>
-        <Grid item xs={4}>
-          <Box>
-            <TextField
-              label="Description"
-              name="description"
-              autoComplete="description"
-              fullWidth
-              onChange={handleChange}
-            />
-          </Box>
-        </Grid>
-        <Grid item xs={4}>
-          <Button
-            onClick={() => onItinerarySubmit(itineraryData)}
-            variant="contained"
-            sx={{ width: "100%" }}
-          >
-            Create
-          </Button>
-        </Grid>
-      </Grid>
-    );
+  const handleDeleteItinerary = (index: number) => {
+    // Create a new array without the deleted itinerary
+    const updatedItineraries = [...itineraries];
+    updatedItineraries.splice(index, 1); // Remove the itinerary at the specified index
+    setItineraries(updatedItineraries); // Update the state
   };
 
   return (
@@ -173,14 +130,19 @@ export default function CreateTrip() {
           />
         </Grid>
       </Grid>
-      <Grid container spacing={2} sx={{ mt: 2 }}>
-        <Grid item xs={12} md={6}>
-          <Itinerary />
-          {itineraries.map((itinerary, i) => (
-            <DisplayItinerary key={i} itinerary={itinerary} />
-          ))}
-        </Grid>
-      </Grid>
+      <Typography variant="h6" color="primary" sx={{ mt: 2, mb: 1 }}>
+        Itineraries
+      </Typography>
+      {itineraries.map((itinerary, i) => (
+        <DisplayItinerary
+          key={i}
+          keyProp={i}
+          itinerary={itinerary}
+          onDelete={() => handleDeleteItinerary(i)}
+        />
+      ))}
+      <Itinerary onItinerarySubmit={onItinerarySubmit} />
+
       <Button onClick={() => onSubmit()} variant="contained" sx={{ mt: 2 }}>
         Submit
       </Button>
@@ -188,25 +150,107 @@ export default function CreateTrip() {
   );
 }
 
-const DisplayItinerary = ({ itinerary }: { itinerary: IItinerary }) => {
-  function onSubmit() {}
+const DisplayItinerary = ({
+  itinerary,
+  keyProp,
+  onDelete,
+}: {
+  itinerary: IItinerary;
+  keyProp: number;
+  onDelete: () => void;
+}) => {
   return (
-    <Paper elevation={4} sx={{ mt: 4, width: "100%" }}>
-      <Grid container>
-        <Grid item xs={12} md={4}>
-          <Typography variant="h4" color="primary">
+    <Paper elevation={4} sx={{ mb: 2, width: "100%", p: 2 }}>
+      <Stack spacing={1}>
+        <Grid
+          sx={{ width: "100%" }}
+          container
+          direction="row"
+          justifyContent="space-between"
+          alignItems="center"
+        >
+          <Grid item>
+            <Typography variant="h4" sx={{ textDecoration: "underline" }}>
+              Itinerary {keyProp + 1}
+            </Typography>
+          </Grid>
+          <Grid item>
+            <Button variant="contained" onClick={onDelete}>
+              Delete
+            </Button>
+          </Grid>
+        </Grid>
+        <Stack direction={"row"}>
+          <Typography variant="h5" color="primary">
+            Name:
+          </Typography>
+          <Typography variant="h5" sx={{ fontWeight: 500 }}>
             {itinerary.name}
           </Typography>
-        </Grid>
-        <Grid item xs={12} md={4}>
-          <Typography variant="h4" color="primary">
-            {itinerary.name}
+        </Stack>
+        <Stack direction={"row"}>
+          <Typography variant="h5" color="primary">
+            Description:
           </Typography>
-        </Grid>
-        <Grid item xs={12} md={4}>
-          <Button variant="contained">Delete</Button>
-        </Grid>
-      </Grid>
+          <Typography variant="h5" sx={{ fontWeight: 500 }}>
+            {itinerary.description}
+          </Typography>
+        </Stack>
+      </Stack>
     </Paper>
+  );
+};
+
+const Itinerary = ({
+  onItinerarySubmit,
+}: {
+  onItinerarySubmit: (itinerary: IItinerary) => void;
+}) => {
+  const [itineraryData, setItineraryData] = useState<IItinerary>({
+    name: "",
+    description: "",
+  });
+
+  const handleChange = (e: any) => {
+    setItineraryData({
+      ...itineraryData,
+      [e?.target?.name]: e?.target?.value,
+    });
+  };
+
+  return (
+    <Grid container spacing={2}>
+      <Grid item xs={4}>
+        <Box>
+          <TextField
+            label="Name"
+            name="name"
+            autoComplete="name"
+            onChange={handleChange}
+            fullWidth
+          />
+        </Box>
+      </Grid>
+      <Grid item xs={4}>
+        <Box>
+          <TextField
+            label="Description"
+            name="description"
+            autoComplete="description"
+            fullWidth
+            onChange={handleChange}
+          />
+        </Box>
+      </Grid>
+      <Grid item xs={4}>
+        <Button
+          onClick={() => onItinerarySubmit(itineraryData)}
+          variant="contained"
+          sx={{ width: "100%", height: "100%" }}
+        >
+          Create
+        </Button>
+      </Grid>
+    </Grid>
   );
 };
